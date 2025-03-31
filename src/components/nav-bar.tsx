@@ -6,7 +6,7 @@ interface NavBarProps {
 
 export default function NavBar(props: NavBarProps) {
     const { active } = props
-    const activeClass = "border-b-4 border-pink-600"
+    const activeClass = "border-b-4 border-primary"
 
     const links = [
         { label: "dashboard", href: "/dashboard" },
@@ -20,7 +20,7 @@ export default function NavBar(props: NavBarProps) {
             <ul className="flex gap-4">
 
                 {links.map(link =>
-                    <li className={active === link.label ? activeClass : ""}>
+                    <li key={link.label} className={active === link.label ? activeClass : ""}>
                         <Link href={link.href}>{link.label}</Link>
                     </li>
                 )}
