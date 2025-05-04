@@ -1,13 +1,18 @@
 import NavBar from "@/components/nav-bar";
+import { DashbooardCards } from "./dashboard-cards";
+import { CategoriesChart } from "./categories-chart";
 
 export default function DashboardPage() {
     return (
         <>
             <NavBar active="dashboard" />
 
-            <main className="flex justify-center">
-                <div className="bg-slate-900 m-4 p-4 rounded min-w-1/3">
-                    <h2>Dashboard</h2>
+            <main className="flex justify-center items-center">
+                <div className=" w-full p-6 rounded m-6">
+                    
+                    <DashbooardCards />
+
+                    <CategoriesChart />
                 </div>
             </main>
         </>
