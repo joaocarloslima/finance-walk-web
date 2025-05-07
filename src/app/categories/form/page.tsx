@@ -33,14 +33,14 @@ export default function CategoryFormPage() {
 
                     <form action={formAction} className="space-y-4">
                         <div>
-                            <Input name="name" placeholder="nome da categoria" defaultValue={state?.values.name} />
+                            <Input name="name" placeholder="nome da categoria" defaultValue={state?.values.name as string} />
                             <span className="text-sm text-destructive">
                                 {state?.errors.name}
                             </span>
                         </div>
 
                         <div>
-                            <Input name="icon" placeholder="nome do ícone" defaultValue={state?.values.icon} />
+                            <Input name="icon" placeholder="nome do ícone" defaultValue={state?.values.icon as string} />
                             <span className="text-sm text-destructive">
                                 {state?.errors.icon}
                             </span>
@@ -53,7 +53,7 @@ export default function CategoryFormPage() {
                                     Cancelar
                                 </Link>
                             </Button>
-                            <Button>
+                            <Button disabled={pending}>
                                 <Check />
                                 Salvar
                             </Button>
