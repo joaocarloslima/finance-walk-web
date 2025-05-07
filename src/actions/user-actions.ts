@@ -1,3 +1,6 @@
+"use server"
+
+import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
 const API_URL = "http://localhost:8080/users"
@@ -37,3 +40,36 @@ export async function createUser(initialValue: any, formData: FormData) {
 
     redirect("/")
 }
+
+export async function login(initialValue: any, formData: FormData) {
+
+    const data = {
+        email: formData.get("email"),
+        password: formData.get("password")
+    }
+
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    }
+
+    const response = await fetch("http://localhost:8080/login", options)
+
+    if (!response.ok) {
+        return {
+            error: "Email ou senha inválidos"
+        }
+    }
+
+    const json = await response.json()
+    const token = json.token
+
+    const cookieStore = await cookies()
+    cookieStore.set("token", token)
+
+    redirect("/dashboard")
+}
+
