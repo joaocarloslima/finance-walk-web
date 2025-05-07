@@ -34,8 +34,8 @@ export async function createCategory(initialValue: any, formData: FormData) {
                 icon: formData.get("icon")
             },
             errors: {
-                name: errors.find(e => e.field === "name")?.defaultMessage,
-                icon: errors.find(e => e.field === "icon")?.defaultMessage
+                name: errors.find((e: any) => e.field === "name")?.defaultMessage,
+                icon: errors.find((e: any) => e.field === "icon")?.defaultMessage
             }
         }
     }
