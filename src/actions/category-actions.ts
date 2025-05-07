@@ -1,9 +1,8 @@
 import { redirect } from "next/navigation"
-
-const API_URL = "http://localhost:8080/categories"
+import { api } from "./api"
 
 export async function getCategories() {
-    const response = await fetch(API_URL)
+    const response = await api("/categories")
     return await response.json()
 }
 
@@ -22,7 +21,7 @@ export async function createCategory(initialValue: any, formData: FormData) {
         body: JSON.stringify(data)
     }
 
-    const response = await fetch(API_URL, options)
+    const response = await api("/categories", options)
 
     if (!response.ok) {
         const json = await response.json()

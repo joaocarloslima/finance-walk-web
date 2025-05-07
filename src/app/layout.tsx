@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/sonner"
 
 
 export const metadata: Metadata = {
-  title: "Money Control",
+  title: "FinanceWalk",
   description: "App de controle de despesas",
 };
 

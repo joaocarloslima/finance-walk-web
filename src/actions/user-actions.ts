@@ -73,3 +73,9 @@ export async function login(initialValue: any, formData: FormData) {
     redirect("/dashboard")
 }
 
+export async function logout() {
+    const cookieStore = await cookies()
+    cookieStore.delete("token")
+    redirect("/")
+}
+
