@@ -1,5 +1,9 @@
+"use server"
+
 import { format } from "date-fns"
 import { redirect } from "next/navigation"
+import { api } from "./api"
+import { cookies } from "next/headers"
 
 const API_URL = "http://localhost:8080/transactions"
 
@@ -15,9 +19,18 @@ interface TransactionFilters{
 export async function getTransactions(filters: TransactionFilters) {
     //await new Promise(resolve => setTimeout(resolve, 2000))
     const params = new URLSearchParams(filters as any)
+    const headers = new Headers()
+    const cookiesStore = await cookies()
+    const token = cookiesStore.get("token")?.value
+    headers.set("Content-Type", "application/json")
+    headers.set("Authorization", "Bearer " + token)
+    const options = {
+        method: "GET",
+        headers: headers,
+    }
     const url = new URL(API_URL)
     url.search = params.toString()
-    const response = await fetch(url.toString())
+    const response = await fetch(url.toString(),options)
     const data = await response.json()
     return data
 }
@@ -35,13 +48,10 @@ export async function createTransaction(initialState: any, formData: FormData) {
 
     const options = {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
         body: JSON.stringify(data)
     }
 
-    const response = await fetch(API_URL, options)
+    const response = await api("/transactions", options)
 
     if (!response.ok){
         const errors = await response.json()
@@ -73,15 +83,7 @@ export async function createTransaction(initialState: any, formData: FormData) {
 }
 
 export async function deleteTransaction(id: number) {
-    const options = {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }
-
-    const response = await fetch(`${API_URL}/${id}`, options)
-
+    const response = await api(`/transactions/${id}`, {method: "DELETE"})
 
     if (response.status === 404) {
         throw new Error("movimentação não encontrada")
