@@ -42,3 +42,17 @@ export async function createCategory(initialValue: any, formData: FormData) {
 
     redirect("/categories")
 }
+
+export async function deleteCategory(id: number) {
+    const response = await api(`/categories/${id}`, {method: "DELETE"})
+
+    if (response.status === 404) {
+        throw new Error("categoria não encontrada. ela pode ter sido removida por outro usuário")
+    }
+
+    if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message || "Erro ao apagar categoria");
+    }
+    
+}
