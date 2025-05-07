@@ -56,3 +56,46 @@ export async function deleteCategory(id: number) {
     }
     
 }
+
+
+export async function getCategoryById(id: number) {
+    const response = await api(`/categories/${id}`)
+
+    if (!response.ok) {
+        throw new Error('Categoria não encontrada')
+    }
+
+    return await response.json()
+}
+
+export async function updateCategory(prevState: any, formData: FormData) {
+    
+    const data = {
+        name: formData.get('name'),
+        icon: formData.get('icon'),
+    }
+
+    const options = {
+        method: "PUT",
+        body: JSON.stringify(data)
+    }
+
+    const response = await api(`/categories/${formData.get('id')}`, options)
+
+    if (!response.ok) {
+        const errors = await response.json()
+        return {
+            values: {
+                name: formData.get("name")?.toString() ?? "",
+                icon: formData.get("icon")?.toString() ?? ""
+            },
+            errors: {
+                name: errors.find((e: any) => e.field === "name")?.message,
+                icon: errors.find((e: any) => e.field === "icon")?.message
+            }
+        }
+    }
+
+    redirect('/categories')
+    
+}

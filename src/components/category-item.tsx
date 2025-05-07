@@ -5,6 +5,7 @@ import CrudDropdown from "./crud-dropdown";
 import Icon from "./icon";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface CategoryItemProps {
     category: Category
@@ -12,6 +13,11 @@ interface CategoryItemProps {
 
 export default function CategoryItem({ category }: CategoryItemProps){
     const [visible, setVisible] = useState(true)
+    const router = useRouter()
+
+    function handleEdit() {
+        router.push(`/categories/form/${category.id}`)
+    }
    
     function handleDelete() {
         toast.promise(
@@ -36,7 +42,7 @@ export default function CategoryItem({ category }: CategoryItemProps){
             </div>
 
             <div>
-                <CrudDropdown onDelete={handleDelete} />
+                <CrudDropdown onDelete={handleDelete} onEdit={handleEdit} />
             </div>
         </div>
     )
